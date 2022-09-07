@@ -33,7 +33,7 @@ export const Table = (props) => {
         </thead>
         <tbody>
         {props.users.length >> 0 ? (
-        props.users.map(user => (
+        props.users.map((user,key) => (
           <tr key={user.id}>
             <td className="py-4 px-6">{user.name}</td>
             <td className="py-4 px-6">{user.email}</td>

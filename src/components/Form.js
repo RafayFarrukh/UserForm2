@@ -2,36 +2,53 @@ import React , { useState, useEffect }from 'react'
 
 const Form = (props) => {
     const initialFormState = { id: null, name: "", email: ""  ,DOB: "" , Address: "",  NIC: "",  Gender: "" };
-    const [user, setUser] = useState(initialFormState);
-    const handleInputChange = event => {
+    const [user, setUser] = useState((props.editing?(props.currentUser):(initialFormState)));
+    // const [edit, setEdit] = useState(props.currentUser);
+
+    const handleInputChangeAdd = event => {
         const { name, value } = event.target;
         setUser({ ...user, [name]: value });
       };
-
-
-
+      const handleInputChangeEdit = event => {
+        const { name, value } = event.target;
+        setUser({ ...user, [name]: value });
+      };
    
-      
-      
-
+      useEffect(
+        () => {
+         
+          if(props.editing){
+          setUser(props.currentUser);
+          }
+          },
+        
+        [props]
+      );
+        
+      const seteditfalse=()=>{
+        props.setEditing(false)
+        
+      }
+    
 
 
   return (
     <form action="#" method="POST"  onSubmit={event => {
+      
         if(props.editing){
+          event.preventDefault();
+
             setUser(initialFormState);
             props.updateUser(user.id, user);
         }else{
-            event.preventDefault();
-            props.addUser(user);
-        }
-     
-
-      
-}}>
-    <div class="shadow overflow-hidden sm:rounded-md">
-      <div class="px-4 py-5 bg-white sm:p-6">
-        <div class="grid grid-cols-6 gap-6">
+          event.preventDefault();
+          // if (!user.name || !user.username) return;
+          props.addUser(user);
+          setUser(initialFormState);      
+}}}>
+    <div className="shadow overflow-hidden sm:rounded-md">
+      <div className="px-4 py-5 bg-white sm:p-6">
+        <div className="grid grid-cols-6 gap-6">
         <div className="col-span-6 sm:col-span-3">
                       <label
                         HtmlFor="first_name"
@@ -52,7 +69,16 @@ const Form = (props) => {
                           className="mt-1 mr-10 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
   
                           value={user.name}
-          onChange={handleInputChange}
+          onChange={
+            (props.editing?(handleInputChangeEdit):
+            (
+              handleInputChangeAdd
+            )
+            
+            
+            )
+            
+            }
                         />
                       
                     
@@ -77,7 +103,16 @@ const Form = (props) => {
                        autocomplete="email"
                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                        value={user.email}
-                       onChange={handleInputChange}
+                       onChange={
+                        (props.editing?(handleInputChangeEdit):
+                        (
+                          handleInputChangeAdd
+                        )
+                        
+                        
+                        )
+                        
+                        }
                        />
                   
                     </div>
@@ -101,7 +136,16 @@ const Form = (props) => {
                         autocomplete="family-name"
                         className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         value={user.DOB}
-                        onChange={handleInputChange}
+                        onChange={
+                          (props.editing?(handleInputChangeEdit):
+                          (
+                            handleInputChangeAdd
+                          )
+                          
+                          
+                          )
+                          
+                          }
                         />
 
                      
@@ -126,19 +170,19 @@ const Form = (props) => {
                         autocomplete="family-name"
                         className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                         value={user.Gender}
-                        onChange={handleInputChange}
+                        onChange={
+                          (props.editing?(handleInputChangeEdit):
+                          (
+                            handleInputChangeAdd
+                          )
+                          
+                          
+                          )
+                          
+                          }
                         />
                     
-                      {/* <select
-                        
-                        id="country"
-                        name="Gender"
-                        autocomplete="country"
-                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      >
-                        <option>Male</option>
-                        <option>Female</option>
-                      </select> */}
+                    
                     </div>
 
                     <div className="col-span-6">
@@ -152,7 +196,16 @@ const Form = (props) => {
 
                       <input
                       value={user.Address}
-                      onChange={handleInputChange}
+                      onChange={
+                        (props.editing?(handleInputChangeEdit):
+                        (
+                          handleInputChangeAdd
+                        )
+                        
+                        
+                        )
+                        
+                        }
                         type="text"
                         required
 
@@ -175,7 +228,16 @@ const Form = (props) => {
                      
                       <input
                        value={user.NIC}
-                       onChange={handleInputChange}
+                       onChange={
+                        (props.editing?(handleInputChangeEdit):
+                        (
+                          handleInputChangeAdd
+                        )
+                        
+                        
+                        )
+                        
+                        }
                         type="text"
                         name="NIC"
                         required
@@ -188,10 +250,37 @@ const Form = (props) => {
                     </div>
         </div>
       </div>
-      <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-          Save
-        </button>
+      <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+        {!props.editing?(
+         <button type="submit" className="inline-flex justify-center mr-10 py-3 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+         Save
+       </button>
+        ):(
+         
+<div>
+<button type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+Update User
+</button>
+<span>&nbsp;</span>
+<button type="submit"  
+
+onClick={
+  ()=>{
+    
+  seteditfalse();
+setUser(initialFormState)  
+}
+ } 
+ 
+ className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+  Cancel
+</button>
+</div>  
+        )}
+      
+
+
+       
       </div>
     </div>
   </form>

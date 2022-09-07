@@ -39,9 +39,12 @@ function App() {
   };
   return (
     <div className="App">
-      <div>
-        Add USer
-        {editing?(
+      <div >
+        <div  className='text-indigo-600 font-extrabold	mt-10'>
+
+        Add USER
+        </div>
+        {/* {editing?(
 
                   <div>
                   <h2>Edit User</h2>
@@ -56,19 +59,21 @@ function App() {
                   <div>
                   <AddForm addUser={addUser} /> 
                   </div>
-                  )}
-            {/* {
-              editing?(
+                  )} */}
+            {
+               
+               //combining Addform and Editform in to Form
 
-                <Form   editing={editing}
-                setEditing={setEditing}
-                currentUser={currentUser}
-                updateUser={updateUser}/>
-              ):(
-                <Form   addUser={addUser} />
-              )
+              <Form   editing={editing}
+              setEditing={setEditing}
+              currentUser={currentUser}
+              updateUser={updateUser}
+              addUser={addUser}
+              />
+
+           
             }
-         */}
+        
       </div>
      
     <Table  users={users} deleteUser={deleteUser} editRow={editRow}/>
